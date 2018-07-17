@@ -103,6 +103,19 @@ def main():
         else:
             labels = algos
         plot.table_backtest(load_config(), algos, labels, format=options.format)
+    elif options.mode == "td":
+        logging.basicConfig(level=logging.INFO)
+        algos = options.algos.split(",")
+        #config = _config_by_algo(options.algo)
+        config = load_config()
+        #_set_logging_by_algo(logging.DEBUG, logging.DEBUG, options.algo, "backtestlog")
+        if options.labels:
+            labels = options.labels.replace("_"," ")
+            labels = labels.split(",")
+        else:
+            labels = algos
+        for i, algo in enumerate(algos):
+            execute_backtest(algo, config)
 
 def _set_logging_by_algo(console_level, file_level, algo, name):
     if algo.isdigit():
